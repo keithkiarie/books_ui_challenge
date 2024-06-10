@@ -16,7 +16,12 @@ import palette from "./theme/palette"; // adjust the path as needed
 import fetchBooks from "./api/books";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-const theme = createTheme({ palette });
+const theme = createTheme({
+  palette,
+  typography: {
+    fontFamily: "Mulish, Arial, sans-serif",
+  },
+});
 
 function App() {
   // State for menu anchor
@@ -34,7 +39,6 @@ function App() {
       })
       .catch((err) => console.log(err));
   }, []);
-
 
   const handleInputChange = (event, newInputValue) => {
     setInputValue(newInputValue);
