@@ -45,7 +45,14 @@ function App() {
     const filteredData = allBooks.filter((option) =>
       option.title.toLowerCase().includes(newInputValue.toLowerCase())
     );
-    setOptions(filteredData);
+    const selectedBooksNames = selectedBooks.map((book) => book.title + book.author + book.coverPhotoURL);
+
+    // remove the selected ones
+    const nonSelected = filteredData.filter(
+      (item) =>
+        !selectedBooksNames.includes(item.title + item.author + item.coverPhotoURL)
+    );
+    setOptions(nonSelected);
   };
 
   return (
@@ -77,7 +84,10 @@ function App() {
                   {option.author}
                 </React.Fragment>
               }
-              onClick={(e) => setSelectedBooks([...selectedBooks, option])}
+              onClick={(e) => {
+                setSelectedBooks([...selectedBooks, option]);
+                handleInputChange(e, inputValue);
+              }}
             />
           )}
         />
