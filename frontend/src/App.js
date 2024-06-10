@@ -109,9 +109,10 @@ function App() {
             renderInput={(params) => (
               <TextField {...params} label="Search Books" variant="outlined" />
             )}
-            renderOption={(props, option) => (
+            renderOption={({ key, ...otherProps }, option) => (
               <ListItemText
-                {...props}
+                key={key}
+                {...otherProps}
                 primary={option.title}
                 secondary={
                   <React.Fragment>
@@ -170,7 +171,7 @@ function App() {
                             let newSelection = [...selectedBooks];
                             newSelection.splice(index, 1);
                             setSelectedBooks(newSelection);
-                            popSnackBar("Book removed from list", "info")
+                            popSnackBar("Book removed from list", "info");
                           }}
                         ></DeleteIcon>
                       </CardContent>
