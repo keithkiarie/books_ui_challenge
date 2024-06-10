@@ -121,6 +121,14 @@ function App() {
                   </React.Fragment>
                 }
                 onClick={(e) => {
+                  if (
+                    selectedBooks
+                      .map((selectedBook) => JSON.stringify(selectedBook))
+                      .includes(JSON.stringify(option))
+                  ) {
+                  popSnackBar("Book was already added", "error");
+                    return;
+                  }
                   setSelectedBooks([...selectedBooks, option]);
                   handleInputChange(e, inputValue);
                   popSnackBar("Book added to list", "success");
