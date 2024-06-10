@@ -15,6 +15,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import palette from "./theme/palette"; // adjust the path as needed
 import fetchBooks from "./api/books";
 import DeleteIcon from "@mui/icons-material/Delete";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 const theme = createTheme({
   palette,
@@ -24,21 +26,13 @@ const theme = createTheme({
 });
 
 function App() {
-  // State for menu anchor
   const [allBooks, setAllBooks] = React.useState([]);
   const [selectedBooks, setSelectedBooks] = React.useState([]);
 
+  // search bar functions
+
   const [inputValue, setInputValue] = React.useState("");
   const [options, setOptions] = React.useState([]);
-
-  React.useEffect(() => {
-    fetchBooks()
-      .then((data) => {
-        setAllBooks(data);
-        setOptions(data);
-      })
-      .catch((err) => console.log(err));
-  }, []);
 
   const handleInputChange = (event, newInputValue) => {
     setInputValue(newInputValue);
@@ -57,6 +51,35 @@ function App() {
         )
     );
     setOptions(nonSelected);
+  };
+
+  // fetching data
+  React.useEffect(() => {
+    fetchBooks()
+      .then((data) => {
+        setAllBooks(data);
+        setOptions(data);
+      })
+      .catch((err) => popSnackBar("Failed to fetch data!", "error"));
+  }, []);
+
+  // snackbar functions
+  const [openSnackbar, setOpenSnackbar] = React.useState(false);
+  const [snackBarMessage, setSnackBarMessage] = React.useState(false);
+  const [snackBarSeverity, setSnackBarSeverity] = React.useState("success");
+
+  const popSnackBar = (message, severity) => {
+    setSnackBarMessage(message);
+    setOpenSnackbar(true);
+    setSnackBarSeverity(severity);
+  };
+
+  const closeSnackBar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenSnackbar(false);
   };
 
   return (
@@ -99,6 +122,7 @@ function App() {
                 onClick={(e) => {
                   setSelectedBooks([...selectedBooks, option]);
                   handleInputChange(e, inputValue);
+                  popSnackBar("Book added to list", "success");
                 }}
               />
             )}
@@ -146,6 +170,7 @@ function App() {
                             let newSelection = [...selectedBooks];
                             newSelection.splice(index, 1);
                             setSelectedBooks(newSelection);
+                            popSnackBar("Book removed from list", "info")
                           }}
                         ></DeleteIcon>
                       </CardContent>
@@ -157,6 +182,16 @@ function App() {
           </div>
         )}
       </div>
+
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={snackBarSeverity === "error" ? 4000 : 2000}
+        onClose={closeSnackBar}
+      >
+        <Alert onClose={closeSnackBar} severity={snackBarSeverity}>
+          {snackBarMessage}
+        </Alert>
+      </Snackbar>
     </ThemeProvider>
   );
 }
