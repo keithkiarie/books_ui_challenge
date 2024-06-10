@@ -23,15 +23,18 @@ function App() {
   const [allBooks, setAllBooks] = React.useState([]);
   const [selectedBooks, setSelectedBooks] = React.useState([]);
 
+  const [inputValue, setInputValue] = React.useState("");
+  const [options, setOptions] = React.useState([]);
 
   React.useEffect(() => {
     fetchBooks()
-      .then((data) => setAllBooks(data))
+      .then((data) => {
+        setAllBooks(data);
+        setOptions(data);
+      })
       .catch((err) => console.log(err));
   }, []);
 
-  const [inputValue, setInputValue] = React.useState("");
-  const [options, setOptions] = React.useState(allBooks);
 
   const handleInputChange = (event, newInputValue) => {
     setInputValue(newInputValue);
