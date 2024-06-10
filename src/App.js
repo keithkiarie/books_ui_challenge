@@ -45,12 +45,16 @@ function App() {
     const filteredData = allBooks.filter((option) =>
       option.title.toLowerCase().includes(newInputValue.toLowerCase())
     );
-    const selectedBooksNames = selectedBooks.map((book) => book.title + book.author + book.coverPhotoURL);
+    const selectedBooksNames = selectedBooks.map(
+      (book) => book.title + book.author + book.coverPhotoURL
+    );
 
     // remove the selected ones
     const nonSelected = filteredData.filter(
       (item) =>
-        !selectedBooksNames.includes(item.title + item.author + item.coverPhotoURL)
+        !selectedBooksNames.includes(
+          item.title + item.author + item.coverPhotoURL
+        )
     );
     setOptions(nonSelected);
   };
@@ -94,38 +98,55 @@ function App() {
       </Box>
 
       <div style={{ display: "flex" }}>
-        {/* Main Content */}
-        <div style={{ flexGrow: 1, padding: "20px" }}>
-          <Grid container spacing={2}>
-            {/* Cards */}
-            {selectedBooks.map((book, index) => (
-              <Grid item xs={4} key={index}>
-                <Card>
-                  <CardContent>
-                    <CardMedia
-                      component="img"
-                      height="200"
-                      image={book.coverPhotoURL}
-                      alt="Profile"
-                    />
-                    <Typography gutterBottom variant="small" component="small">
-                      {book.title}
-                    </Typography>
-                    <DeleteIcon
-                      color="warning"
-                      style={{ float: "right" }}
-                      onClick={() => {
-                        let newSelection = [...selectedBooks];
-                        newSelection.splice(index, 1);
-                        setSelectedBooks(newSelection);
-                      }}
-                    ></DeleteIcon>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        </div>
+        {selectedBooks.length === 0 ? (
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            style={{ height: "50vh" }}
+            pt={5}
+            pb={3}
+            pl={3}
+          >
+            <i>No books selected</i>
+          </Box>
+        ) : (
+          <div style={{ flexGrow: 1, padding: "20px" }}>
+            <Grid container spacing={2}>
+              {/* Cards */}
+              {selectedBooks.map((book, index) => (
+                <Grid item xs={4} key={index}>
+                  <Card>
+                    <CardContent>
+                      <CardMedia
+                        component="img"
+                        height="200"
+                        image={book.coverPhotoURL}
+                        alt="Profile"
+                      />
+                      <Typography
+                        gutterBottom
+                        variant="small"
+                        component="small"
+                      >
+                        {book.title}
+                      </Typography>
+                      <DeleteIcon
+                        color="warning"
+                        style={{ float: "right" }}
+                        onClick={() => {
+                          let newSelection = [...selectedBooks];
+                          newSelection.splice(index, 1);
+                          setSelectedBooks(newSelection);
+                        }}
+                      ></DeleteIcon>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+          </div>
+        )}
       </div>
     </ThemeProvider>
   );
