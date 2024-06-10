@@ -61,92 +61,96 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        style={{ height: "7vh" }}
-        pt={7}
-        pb={3}
-      >
-        <Autocomplete
-          inputValue={inputValue}
-          onInputChange={handleInputChange}
-          options={options}
-          getOptionLabel={(option) => `${option.title};${option.coverPhotoURL}`}
-          sx={{ width: "30%" }}
-          renderInput={(params) => (
-            <TextField {...params} label="Search Books" variant="outlined" />
-          )}
-          renderOption={(props, option) => (
-            <ListItemText
-              {...props}
-              primary={option.title}
-              secondary={
-                <React.Fragment>
-                  <Avatar alt={option.title} src={option.coverPhotoURL} />
-                  {option.author}
-                </React.Fragment>
-              }
-              onClick={(e) => {
-                setSelectedBooks([...selectedBooks, option]);
-                handleInputChange(e, inputValue);
-              }}
-            />
-          )}
-        />
-      </Box>
+      <div style={{ height: "100vh", background: 'linear-gradient(to bottom right, #5ACCCC, #FAD833)' }}>
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          style={{ height: "7vh" }}
+          pt={7}
+          pb={3}
+        >
+          <Autocomplete
+            inputValue={inputValue}
+            onInputChange={handleInputChange}
+            options={options}
+            getOptionLabel={(option) =>
+              `${option.title};${option.coverPhotoURL}`
+            }
+            sx={{ width: "30%" }}
+            renderInput={(params) => (
+              <TextField {...params} label="Search Books" variant="outlined" />
+            )}
+            renderOption={(props, option) => (
+              <ListItemText
+                {...props}
+                primary={option.title}
+                secondary={
+                  <React.Fragment>
+                    <Avatar alt={option.title} src={option.coverPhotoURL} />
+                    {option.author}
+                  </React.Fragment>
+                }
+                onClick={(e) => {
+                  setSelectedBooks([...selectedBooks, option]);
+                  handleInputChange(e, inputValue);
+                }}
+              />
+            )}
+          />
+        </Box>
 
-      <div style={{ display: "flex" }}>
-        {selectedBooks.length === 0 ? (
-          <Box
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            style={{ height: "50vh" }}
-            pt={5}
-            pb={3}
-            pl={3}
-          >
-            <i>No books selected</i>
-          </Box>
-        ) : (
-          <div style={{ flexGrow: 1, padding: "20px" }}>
-            <Grid container spacing={2}>
-              {/* Cards */}
-              {selectedBooks.map((book, index) => (
-                <Grid item xs={4} key={index}>
-                  <Card>
-                    <CardContent>
-                      <CardMedia
-                        component="img"
-                        height="200"
-                        image={book.coverPhotoURL}
-                        alt="Profile"
-                      />
-                      <Typography
-                        gutterBottom
-                        variant="small"
-                        component="small"
-                      >
-                        {book.title}
-                      </Typography>
-                      <DeleteIcon
-                        color="warning"
-                        style={{ float: "right" }}
-                        onClick={() => {
-                          let newSelection = [...selectedBooks];
-                          newSelection.splice(index, 1);
-                          setSelectedBooks(newSelection);
-                        }}
-                      ></DeleteIcon>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
-          </div>
-        )}
+        <div style={{ display: "flex" }}>
+          {selectedBooks.length === 0 ? (
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              style={{ height: "50vh" }}
+              pt={5}
+              pb={3}
+              pl={3}
+            >
+              <i>No books selected</i>
+            </Box>
+          ) : (
+            <div style={{ flexGrow: 1, padding: "20px" }}>
+              <Grid container spacing={2}>
+                {/* Cards */}
+                {selectedBooks.map((book, index) => (
+                  <Grid item xs={4} key={index}>
+                    <Card>
+                      <CardContent>
+                        <CardMedia
+                          component="img"
+                          height="200"
+                          image={book.coverPhotoURL}
+                          alt="Profile"
+                        />
+                        <Typography
+                          gutterBottom
+                          variant="small"
+                          component="small"
+                        >
+                          {book.title}
+                        </Typography>
+                        <DeleteIcon
+                          color="warning"
+                          style={{ float: "right" }}
+                          onClick={() => {
+                            let newSelection = [...selectedBooks];
+                            newSelection.splice(index, 1);
+                            setSelectedBooks(newSelection);
+                          }}
+                        ></DeleteIcon>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            </div>
+          )}
+        </div>
       </div>
     </ThemeProvider>
   );
