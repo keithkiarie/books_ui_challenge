@@ -61,7 +61,12 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <div style={{ minHeight: "100vh", background: 'linear-gradient(to bottom right, #5ACCCC, #FAD833)' }}>
+      <div
+        style={{
+          minHeight: "100vh",
+          background: "linear-gradient(to bottom right, #5ACCCC, #FAD833)",
+        }}
+      >
         <Box
           display="flex"
           justifyContent="center"
@@ -100,20 +105,20 @@ function App() {
           />
         </Box>
 
-        <div style={{ display: "flex" }}>
-          {selectedBooks.length === 0 ? (
-            <Box
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              style={{ height: "50vh" }}
-              pt={5}
-              pb={3}
-              pl={3}
-            >
-              <i>No books selected</i>
-            </Box>
-          ) : (
+        {selectedBooks.length === 0 ? (
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            style={{ height: "50vh" }}
+            pt={5}
+            pb={3}
+            pl={3}
+          >
+            <i>No books selected</i>
+          </Box>
+        ) : (
+          <div style={{ display: "flex" }}>
             <div style={{ flexGrow: 1, padding: "20px" }}>
               <Grid container spacing={2}>
                 {/* Cards */}
@@ -149,8 +154,8 @@ function App() {
                 ))}
               </Grid>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </ThemeProvider>
   );
