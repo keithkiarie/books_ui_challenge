@@ -61,7 +61,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <div style={{ height: "100vh", background: 'linear-gradient(to bottom right, #5ACCCC, #FAD833)' }}>
+      <div style={{ minHeight: "100vh", background: 'linear-gradient(to bottom right, #5ACCCC, #FAD833)' }}>
         <Box
           display="flex"
           justifyContent="center"
