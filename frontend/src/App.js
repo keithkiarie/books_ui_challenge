@@ -39,19 +39,20 @@ function App() {
     const filteredData = allBooks.filter((option) =>
       option.title.toLowerCase().includes(newInputValue.toLowerCase())
     );
-    const selectedBooksNames = selectedBooks.map(
-      (book) => book.title + book.author + book.coverPhotoURL
-    );
 
-    // remove the selected ones
-    const nonSelected = filteredData.filter(
+    removeOptionsAlreadySelected(filteredData);
+  };
+
+  const removeOptionsAlreadySelected = (data) => {
+
+    const nonSelected = data.filter(
       (item) =>
-        !selectedBooksNames.includes(
-          item.title + item.author + item.coverPhotoURL
+        !selectedBooks.map(JSON.stringify).includes(
+          JSON.stringify(item)
         )
     );
     setOptions(nonSelected);
-  };
+  }
 
   // fetching data
   React.useEffect(() => {
@@ -121,16 +122,18 @@ function App() {
                   </React.Fragment>
                 }
                 onClick={(e) => {
+                  // reject books that were already added
                   if (
                     selectedBooks
-                      .map((selectedBook) => JSON.stringify(selectedBook))
+                      .map(JSON.stringify)
                       .includes(JSON.stringify(option))
                   ) {
-                  popSnackBar("Book was already added", "error");
+                  popSnackBar("Book was already added to list", "error");
                     return;
                   }
+
                   setSelectedBooks([...selectedBooks, option]);
-                  handleInputChange(e, inputValue);
+                  removeOptionsAlreadySelected(options)
                   popSnackBar("Book added to list", "success");
                 }}
               />
