@@ -1,69 +1,85 @@
-## Before starting
-Run the Books Graphql backend at localhost:8000
+ ![svgviewer-output](https://github.com/ElloTechnology/backend_takehome/assets/3518127/561bc8d4-bffc-4360-b9ea-61e876bcec93)
 
-## Available Scripts
 
-In the project directory, you can run:
+# Ello Engineering Challenge
 
-### `npm start`
+👋 Hello,
+We are really excited about you potentially joining the team, so we designed this take home exercise to give you a taste of the challenges you may encounter in the role, and better understand what it would be like to work closely together.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Thanks for taking the time, and we hope to talk with you soon!
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## About Ello
 
-### `npm test`
+Ello is a forward-thinking educational technology company dedicated to revolutionizing the way children learn to read. Our mission is to empower young readers with the tools they need to become proficient and passionate readers. We believe that fostering a love for reading is essential for a child's academic and personal growth.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+**Note:** Please don't fork this repository or create a pull request against it. Other applicants may take inspiration from it. You should create another repository for the challenge. Once the coding challenge is completed, email your solution back to our team at [fullstack2024@ello.com](mailto:fullstack2024@ello.com).
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Challenge
+As part of our goal to have Ello impact as many children as we can, we offer an Ello web viewer product. [https://books.ello.com](https://books.ello.com/)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+We give this to certain schools for free to allow teachers to share our books with children. 
+You are building part of the teacher-facing UI for this product,
+namely the book assignment view, where teachers can assign books to students. 
 
-### `npm run eject`
+The view should have the following features:-
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. A search bar that allows users to search for books by title.
+2. A list of search results that displays the book title, author, and a button to add the book to the students reading list.
+3. A reading list that displays all the books that the teacher has added.
+4. A button to remove a book from the reading list.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+You can build this view without the concept of a "student" and just have a single reading list for the teacher.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Requirements
+- Use React as the frontend framework.
+- Showcase the use of React hooks.
+- Use [material-ui](https://mui.com/material-ui/) as the component library.
+- Write your code in the `src/frontend` directory.
+- Create components as you feel is best suited for your solution
+<img width="1013" alt="Screenshot 2024-05-15 at 19 10 51" src="https://github.com/ElloTechnology/fullstack-take-home-test/assets/3518127/bc3eb7f7-489f-4304-93f4-032bbbd38c58">
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
+### Data
+To get access to data that you will use for this challenge you can switch into the `src/backend` folder and run
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+npm install
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Then run the following command to start the server
 
-### Code Splitting
+```bash
+npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+This start a Graphql server at the url `http://localhost:4000/`, the server has a single query `books` that returns a list of books. 
 
-### Analyzing the Bundle Size
+```graphql
+query Books {
+  books {
+    author
+    coverPhotoURL
+    readingLevel
+    title
+  }
+}
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+You can use this query to get the list of books to display in your frontend. You may need to adjust the `coverPhotoURL` to be a valid URL. The photos are in the `src/frontend/assets` directory.
 
-### Making a Progressive Web App
+### Styling Guidelines
+- Use the "Mulish" Google font
+- You can use the following colors (You don't have to use all but you can pick and choose from here)
+<img width="961" alt="Screenshot 2024-05-14 at 17 36 40" src="https://github.com/ElloTechnology/fullstack-take-home-test/assets/3518127/15922f8f-a7c7-4033-8405-76988e95afb3">
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
+### You will be evaluated on
+- Code quality and organization.
+- User experience and design.
+- Beautiful and responsive UI.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
