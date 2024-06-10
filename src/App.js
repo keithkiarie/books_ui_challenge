@@ -1,38 +1,48 @@
 import React from "react";
 import {
-  AppBar,
-  Toolbar,
   Typography,
   Grid,
   Card,
   CardContent,
   CardMedia,
-  Menu,
-  MenuItem,
-  IconButton,
   TextField,
   Box,
+  Autocomplete,
+  ListItemText,
+  Avatar,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import palette from "./theme/palette"; // adjust the path as needed
+import fetchBooks from "./api/books";
+import DeleteIcon from "@mui/icons-material/Delete";
+
+const theme = createTheme({ palette });
 
 function App() {
   // State for menu anchor
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
+  const [allBooks, setAllBooks] = React.useState([]);
+  const [selectedBooks, setSelectedBooks] = React.useState([]);
 
-  // Handle opening menu
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
 
-  // Handle closing menu
-  const handleClose = () => {
-    setAnchorEl(null);
+  React.useEffect(() => {
+    fetchBooks()
+      .then((data) => setAllBooks(data))
+      .catch((err) => console.log(err));
+  }, []);
+
+  const [inputValue, setInputValue] = React.useState("");
+  const [options, setOptions] = React.useState(allBooks);
+
+  const handleInputChange = (event, newInputValue) => {
+    setInputValue(newInputValue);
+    const filteredData = allBooks.filter((option) =>
+      option.title.toLowerCase().includes(newInputValue.toLowerCase())
+    );
+    setOptions(filteredData);
   };
 
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <Box
         display="flex"
         justifyContent="center"
@@ -41,29 +51,29 @@ function App() {
         pt={7}
         pb={3}
       >
-        <TextField
-          select
-          label="Book"
-          // value={book}
-          // onChange={handleChange}
-          helperText="Please select your book"
-          variant="outlined"
-          sx={{ width: "30%" }} // Set width to 30%
-        >
-          <MenuItem value="Book 1">
-            <img src="/path/to/book1.jpg" alt="Book 1" width="30" height="30" />
-            Book 1
-          </MenuItem>
-          <MenuItem value="Book 2">
-            <img src="/path/to/book2.jpg" alt="Book 2" width="30" height="30" />
-            Book 2
-          </MenuItem>
-          <MenuItem value="Book 3">
-            <img src="/path/to/book3.jpg" alt="Book 3" width="30" height="30" />
-            Book 3
-          </MenuItem>
-          {/* Add more MenuItem components for additional options */}
-        </TextField>
+        <Autocomplete
+          inputValue={inputValue}
+          onInputChange={handleInputChange}
+          options={options}
+          getOptionLabel={(option) => `${option.title};${option.coverPhotoURL}`}
+          sx={{ width: "30%" }}
+          renderInput={(params) => (
+            <TextField {...params} label="Search Books" variant="outlined" />
+          )}
+          renderOption={(props, option) => (
+            <ListItemText
+              {...props}
+              primary={option.title}
+              secondary={
+                <React.Fragment>
+                  <Avatar alt={option.title} src={option.coverPhotoURL} />
+                  {option.author}
+                </React.Fragment>
+              }
+              onClick={(e) => setSelectedBooks([...selectedBooks, option])}
+            />
+          )}
+        />
       </Box>
 
       <div style={{ display: "flex" }}>
@@ -71,33 +81,28 @@ function App() {
         <div style={{ flexGrow: 1, padding: "20px" }}>
           <Grid container spacing={2}>
             {/* Cards */}
-            {[...Array(6)].map((_, index) => (
+            {selectedBooks.map((book, index) => (
               <Grid item xs={4} key={index}>
                 <Card>
                   <CardContent>
                     <CardMedia
                       component="img"
-                      height="100"
-                      image="/placeholder-image.jpg"
+                      height="200"
+                      image={book.coverPhotoURL}
                       alt="Profile"
                     />
-                    <Typography gutterBottom variant="h6" component="h3">
-                      Book {index + 1}
+                    <Typography gutterBottom variant="small" component="small">
+                      {book.title}
                     </Typography>
-                    <IconButton aria-label="settings" onClick={handleClick}>
-                      <MoreVertIcon />
-                    </IconButton>
-                    <Menu
-                      id="long-menu"
-                      anchorEl={anchorEl}
-                      keepMounted
-                      open={open}
-                      onClose={handleClose}
-                    >
-                      <MenuItem onClick={handleClose}>Book 1</MenuItem>
-                      <MenuItem onClick={handleClose}>Book 2</MenuItem>
-                      <MenuItem onClick={handleClose}>Book 3</MenuItem>
-                    </Menu>
+                    <DeleteIcon
+                      color="warning"
+                      style={{ float: "right" }}
+                      onClick={() => {
+                        let newSelection = [...selectedBooks];
+                        newSelection.splice(index, 1);
+                        setSelectedBooks(newSelection);
+                      }}
+                    ></DeleteIcon>
                   </CardContent>
                 </Card>
               </Grid>
@@ -105,7 +110,7 @@ function App() {
           </Grid>
         </div>
       </div>
-    </>
+    </ThemeProvider>
   );
 }
 
